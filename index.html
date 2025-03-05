@@ -3,70 +3,118 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Clinical Trial Eligibility Checker</title>
+    <title>Concerto Study Patient Eligibility Check</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
-            background-color: #f5f5f5;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f2f5;
+            color: #333;
         }
-        .container, .login-container {
+        .login-container, .main-container {
+            max-width: 900px;
+            margin: 40px auto;
             background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+        }
+        .header {
+            background-color: #0078d4;
+            color: white;
             padding: 20px;
-            border-radius: 5px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            text-align: center;
+            border-radius: 10px 10px 0 0;
+            margin: -30px -30px 30px -30px;
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 28px;
+        }
+        .header p {
+            margin: 5px 0 0;
+            font-size: 14px;
+            opacity: 0.9;
         }
         .form-group {
-            margin-bottom: 15px;
+            margin-bottom: 20px;
         }
         label {
             display: block;
-            margin-bottom: 5px;
-            font-weight: bold;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #555;
         }
         input, select {
             width: 100%;
-            padding: 8px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+        input[type="checkbox"] {
+            width: auto;
+            margin-right: 10px;
         }
         button {
-            background-color: #4CAF50;
+            background-color: #0078d4;
             color: white;
-            padding: 10px 20px;
+            padding: 12px 25px;
             border: none;
-            border-radius: 4px;
+            border-radius: 5px;
             cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
         }
         button:hover {
-            background-color: #45a049;
+            background-color: #005ea2;
+        }
+        #logoutBtn {
+            background-color: #dc3545;
+            float: right;
+        }
+        #logoutBtn:hover {
+            background-color: #b02a37;
         }
         #result {
-            margin-top: 20px;
-            padding: 15px;
-            border-radius: 4px;
+            margin-top: 25px;
+            padding: 20px;
+            border-radius: 5px;
             display: none;
+            font-size: 16px;
         }
         .eligible {
-            background-color: #dff0d8;
-            border: 1px solid #d6e9c6;
-            color: #3c763d;
+            background-color: #e6ffe6;
+            border: 1px solid #b3ffb3;
+            color: #006600;
         }
         .not-eligible {
-            background-color: #f2dede;
-            border: 1px solid #ebccd1;
-            color: #a94442;
+            background-color: #ffe6e6;
+            border: 1px solid #ff9999;
+            color: #990000;
         }
         .hidden {
             display: none;
+        }
+        .checkbox-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        .checkbox-group label {
+            display: inline;
+            font-weight: normal;
         }
     </style>
 </head>
 <body>
     <div id="loginContainer" class="login-container">
-        <h1>Login</h1>
+        <div class="header">
+            <h1>Concerto Study Patient Eligibility Check</h1>
+            <p>By Samsara Vision</p>
+        </div>
         <form id="loginForm">
             <div class="form-group">
                 <label for="username">Username:</label>
@@ -77,12 +125,15 @@
                 <input type="password" id="password" name="password" required>
             </div>
             <button type="submit">Login</button>
-            <p id="loginError" style="color: red; display: none;">Invalid credentials</p>
+            <p id="loginError" style="color: #990000; display: none; margin-top: 10px;">Invalid credentials</p>
         </form>
     </div>
 
-    <div id="mainContainer" class="container hidden">
-        <h1>Clinical Trial Eligibility Checker</h1>
+    <div id="mainContainer" class="main-container hidden">
+        <div class="header">
+            <h1>Concerto Study Patient Eligibility Check</h1>
+            <p>By Samsara Vision</p>
+        </div>
         <button id="logoutBtn">Logout</button>
         
         <form id="patientForm">
@@ -92,22 +143,40 @@
             </div>
 
             <div class="form-group">
-                <label for="bcdva">ETDRS BCDVA (logMAR):</label>
-                <input type="number" id="bcdva" name="bcdva" step="0.1" required min="0" max="2">
+                <label for="bcdvaOD">ETDRS BCDVA OD (Snellen):</label>
+                <select id="bcdvaOD" name="bcdvaOD" required>
+                    <option value="">Select</option>
+                    <option value="20/160">20/160</option>
+                    <option value="20/200">20/200</option>
+                    <option value="other">Other</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="bcdvaOS">ETDRS BCDVA OS (Snellen):</label>
+                <select id="bcdvaOS" name="bcdvaOS" required>
+                    <option value="">Select</option>
+                    <option value="20/160">20/160</option>
+                    <option value="20/200">20/200</option>
+                    <option value="other">Other</option>
+                </select>
             </div>
 
             <div class="form-group">
                 <label>Retinal Findings (Both Eyes):</label>
-                <input type="checkbox" id="geoAtrophy" name="geoAtrophy">
-                <label for="geoAtrophy">Geographic Atrophy</label>
-                <input type="checkbox" id="disciformScar" name="disciformScar">
-                <label for="disciformScar">Disciform Scar</label>
+                <div class="checkbox-group">
+                    <div><input type="checkbox" id="geoAtrophy" name="geoAtrophy"><label for="geoAtrophy">Geographic Atrophy</label></div>
+                    <div><input type="checkbox" id="disciformScar" name="disciformScar"><label for="disciformScar">Disciform Scar</label></div>
+                </div>
             </div>
 
             <div class="form-group">
-                <label>No Active CNV in Past 6 Months:</label>
-                <input type="checkbox" id="noCNV" name="noCNV" required>
-                <label for="noCNV">Confirmed</label>
+                <label for="cnvStatus">CNV Status (Past 6 Months):</label>
+                <select id="cnvStatus" name="cnvStatus" required>
+                    <option value="">Select</option>
+                    <option value="active">Active</option>
+                    <option value="nonActive">Non-Active</option>
+                </select>
             </div>
 
             <div class="form-group">
@@ -116,6 +185,16 @@
                     <option value="">Select</option>
                     <option value="yes">Yes</option>
                     <option value="no">No</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="cataractSurgery">Previous Cataract Surgery:</label>
+                <select id="cataractSurgery" name="cataractSurgery" required>
+                    <option value="">Select</option>
+                    <option value="none">None</option>
+                    <option value="oneEye">One Eye</option>
+                    <option value="bothEyes">Both Eyes</option>
                 </select>
             </div>
 
@@ -135,13 +214,11 @@
 
             <div class="form-group">
                 <label>Exclusion Conditions (Check if present):</label>
-                <input type="checkbox" id="cognitiveImpairment" name="cognitiveImpairment">
-                <label for="cognitiveImpairment">Cognitive Impairment</label>
-                <input type="checkbox" id="stargardt" name="stargardt">
-                <label for="stargardt">Stargardt Macular Dystrophy</label>
-                <input type="checkbox" id="diabeticRetinopathy" name="diabeticRetinopathy">
-                <label for="diabeticRetinopathy">Diabetic Retinopathy</label>
-                <!-- Add more as needed -->
+                <div class="checkbox-group">
+                    <div><input type="checkbox" id="cognitiveImpairment" name="cognitiveImpairment"><label for="cognitiveImpairment">Cognitive Impairment</label></div>
+                    <div><input type="checkbox" id="stargardt" name="stargardt"><label for="stargardt">Stargardt Macular Dystrophy</label></div>
+                    <div><input type="checkbox" id="diabeticRetinopathy" name="diabeticRetinopathy"><label for="diabeticRetinopathy">Diabetic Retinopathy</label></div>
+                </div>
             </div>
 
             <div class="form-group">
@@ -200,11 +277,13 @@
             
             // Get form values
             const age = parseInt(document.getElementById('age').value);
-            const bcdva = parseFloat(document.getElementById('bcdva').value);
+            const bcdvaOD = document.getElementById('bcdvaOD').value;
+            const bcdvaOS = document.getElementById('bcdvaOS').value;
             const geoAtrophy = document.getElementById('geoAtrophy').checked;
             const disciformScar = document.getElementById('disciformScar').checked;
-            const noCNV = document.getElementById('noCNV').checked;
+            const cnvStatus = document.getElementById('cnvStatus').value;
             const cataract = document.getElementById('cataract').value;
+            const cataractSurgery = document.getElementById('cataractSurgery').value;
             const telescopeTraining = parseFloat(document.getElementById('telescopeTraining').value);
             const peripheralVision = document.getElementById('peripheralVision').value;
             const cognitiveImpairment = document.getElementById('cognitiveImpairment').checked;
@@ -223,9 +302,14 @@
                 reasons.push("Age must be at least 65 years");
             }
 
-            if (bcdva < 0.9 || bcdva > 1.6) {
+            const validBCDVA = ["20/160", "20/200"];
+            if (!validBCDVA.includes(bcdvaOD)) {
                 isEligible = false;
-                reasons.push("ETDRS BCDVA must be between 0.9 and 1.6 logMAR");
+                reasons.push("BCDVA OD must be 20/160 to 20/200");
+            }
+            if (!validBCDVA.includes(bcdvaOS)) {
+                isEligible = false;
+                reasons.push("BCDVA OS must be 20/160 to 20/200");
             }
 
             if (!geoAtrophy && !disciformScar) {
@@ -233,14 +317,22 @@
                 reasons.push("Must have geographic atrophy or disciform scar in both eyes");
             }
 
-            if (!noCNV) {
+            if (cnvStatus === "active") {
                 isEligible = false;
-                reasons.push("Must have no active CNV in past 6 months");
+                reasons.push("Active CNV in past 6 months excludes eligibility");
+            } else if (cnvStatus !== "nonActive") {
+                isEligible = false;
+                reasons.push("CNV status must be confirmed as non-active");
             }
 
             if (cataract !== "yes") {
                 isEligible = false;
                 reasons.push("Implanted eye must have visually significant cataract");
+            }
+
+            if (cataractSurgery === "bothEyes") {
+                isEligible = false;
+                reasons.push("Previous cataract surgery in both eyes excludes eligibility");
             }
 
             if (telescopeTraining < 0.1) {
@@ -286,8 +378,6 @@
                 isEligible = false;
                 reasons.push("ECD must be at least 1800 cells/mm² for ages 85+");
             }
-
-            // Note: Some criteria (e.g., history of surgery, myopia/hyperopia) require additional fields if needed
 
             // Display result
             const resultDiv = document.getElementById('result');
