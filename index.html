@@ -148,6 +148,9 @@
                     <option value="">Select</option>
                     <option value="20/160">20/160</option>
                     <option value="20/200">20/200</option>
+                    <option value="20/400">20/400</option>
+                    <option value="20/500">20/500</option>
+                    <option value="20/800">20/800</option>
                     <option value="other">Other</option>
                 </select>
             </div>
@@ -158,6 +161,9 @@
                     <option value="">Select</option>
                     <option value="20/160">20/160</option>
                     <option value="20/200">20/200</option>
+                    <option value="20/400">20/400</option>
+                    <option value="20/500">20/500</option>
+                    <option value="20/800">20/800</option>
                     <option value="other">Other</option>
                 </select>
             </div>
@@ -199,11 +205,6 @@
             </div>
 
             <div class="form-group">
-                <label for="telescopeTraining">ETDRS BCDVA Improvement with Telescope (Implanted Eye, logMAR):</label>
-                <input type="number" id="telescopeTraining" name="telescopeTraining" step="0.1" required min="0">
-            </div>
-
-            <div class="form-group">
                 <label for="peripheralVision">Adequate Peripheral Vision (Non-Implanted Eye):</label>
                 <select id="peripheralVision" name="peripheralVision" required>
                     <option value="">Select</option>
@@ -222,18 +223,8 @@
             </div>
 
             <div class="form-group">
-                <label for="iop">Intraocular Pressure (IOP, mmHg):</label>
-                <input type="number" id="iop" name="iop" required min="0">
-            </div>
-
-            <div class="form-group">
                 <label for="acd">Anterior Chamber Depth (Implanted Eye, mm):</label>
                 <input type="number" id="acd" name="acd" step="0.1" required min="0">
-            </div>
-
-            <div class="form-group">
-                <label for="ecd">Endothelial Cell Density (Implanted Eye, cells/mm²):</label>
-                <input type="number" id="ecd" name="ecd" required min="0">
             </div>
 
             <button type="submit">Check Eligibility</button>
@@ -284,14 +275,11 @@
             const cnvStatus = document.getElementById('cnvStatus').value;
             const cataract = document.getElementById('cataract').value;
             const cataractSurgery = document.getElementById('cataractSurgery').value;
-            const telescopeTraining = parseFloat(document.getElementById('telescopeTraining').value);
             const peripheralVision = document.getElementById('peripheralVision').value;
             const cognitiveImpairment = document.getElementById('cognitiveImpairment').checked;
             const stargardt = document.getElementById('stargardt').checked;
             const diabeticRetinopathy = document.getElementById('diabeticRetinopathy').checked;
-            const iop = parseInt(document.getElementById('iop').value);
             const acd = parseFloat(document.getElementById('acd').value);
-            const ecd = parseInt(document.getElementById('ecd').value);
 
             let isEligible = true;
             let reasons = [];
@@ -302,14 +290,14 @@
                 reasons.push("Age must be at least 65 years");
             }
 
-            const validBCDVA = ["20/160", "20/200"];
+            const validBCDVA = ["20/160", "20/200", "20/400", "20/500", "20/800"];
             if (!validBCDVA.includes(bcdvaOD)) {
                 isEligible = false;
-                reasons.push("BCDVA OD must be 20/160 to 20/200");
+                reasons.push("BCDVA OD must be between 20/160 and 20/800");
             }
             if (!validBCDVA.includes(bcdvaOS)) {
                 isEligible = false;
-                reasons.push("BCDVA OS must be 20/160 to 20/200");
+                reasons.push("BCDVA OS must be between 20/160 and 20/800");
             }
 
             if (!geoAtrophy && !disciformScar) {
@@ -335,11 +323,6 @@
                 reasons.push("Previous cataract surgery in both eyes excludes eligibility");
             }
 
-            if (telescopeTraining < 0.1) {
-                isEligible = false;
-                reasons.push("Must achieve at least 0.1 logMAR improvement with telescope training");
-            }
-
             if (peripheralVision !== "yes") {
                 isEligible = false;
                 reasons.push("Non-implanted eye must have adequate peripheral vision");
@@ -361,22 +344,9 @@
                 reasons.push("Diabetic retinopathy present");
             }
 
-            if (iop > 22) {
-                isEligible = false;
-                reasons.push("IOP must not exceed 22 mmHg");
-            }
-
             if (acd < 3.0) {
                 isEligible = false;
                 reasons.push("Anterior chamber depth must be at least 3.0 mm");
-            }
-
-            if (age >= 65 && age <= 84 && ecd < 2000) {
-                isEligible = false;
-                reasons.push("ECD must be at least 2000 cells/mm² for ages 65-84");
-            } else if (age >= 85 && ecd < 1800) {
-                isEligible = false;
-                reasons.push("ECD must be at least 1800 cells/mm² for ages 85+");
             }
 
             // Display result
