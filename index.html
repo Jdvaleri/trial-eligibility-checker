@@ -1,0 +1,323 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta http-equiv="Content-Style-Type" content="text/css">
+  <title></title>
+  <meta name="Generator" content="Cocoa HTML Writer">
+  <meta name="CocoaVersion" content="2113.65">
+  <style type="text/css">
+    p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica}
+    p.p2 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica; min-height: 14.0px}
+  </style>
+</head>
+<body>
+<p class="p1">&lt;!DOCTYPE html&gt;</p>
+<p class="p1">&lt;html lang="en"&gt;</p>
+<p class="p1">&lt;head&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;meta charset="UTF-8"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;title&gt;Clinical Trial Eligibility Checker&lt;/title&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;style&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>body {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>font-family: Arial, sans-serif;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>max-width: 800px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>margin: 0 auto;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>padding: 20px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>background-color: #f5f5f5;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.container, .login-container {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>background-color: white;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>padding: 20px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>border-radius: 5px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>box-shadow: 0 2px 5px rgba(0,0,0,0.1);</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.form-group {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>margin-bottom: 15px;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>label {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>display: block;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>margin-bottom: 5px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>font-weight: bold;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>input, select {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>width: 100%;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>padding: 8px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>border: 1px solid #ddd;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>border-radius: 4px;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>button {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>background-color: #4CAF50;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>color: white;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>padding: 10px 20px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>border: none;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>border-radius: 4px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>cursor: pointer;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>button:hover {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>background-color: #45a049;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>#result {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>margin-top: 20px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>padding: 15px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>border-radius: 4px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>display: none;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.eligible {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>background-color: #dff0d8;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>border: 1px solid #d6e9c6;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>color: #3c763d;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.not-eligible {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>background-color: #f2dede;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>border: 1px solid #ebccd1;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>color: #a94442;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.hidden {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>display: none;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/style&gt;</p>
+<p class="p1">&lt;/head&gt;</p>
+<p class="p1">&lt;body&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div id="loginContainer" class="login-container"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;h1&gt;Login&lt;/h1&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;form id="loginForm"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="form-group"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;label for="username"&gt;Username:&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;input type="text" id="username" name="username" required&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="form-group"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;label for="password"&gt;Password:&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;input type="password" id="password" name="password" required&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;button type="submit"&gt;Login&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;p id="loginError" style="color: red; display: none;"&gt;Invalid credentials&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/form&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div id="mainContainer" class="container hidden"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;h1&gt;Clinical Trial Eligibility Checker&lt;/h1&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;button id="logoutBtn"&gt;Logout&lt;/button&gt;</p>
+<p class="p2"><span class="Apple-converted-space">        </span></p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;form id="patientForm"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="form-group"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;label for="age"&gt;Age:&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;input type="number" id="age" name="age" required min="0"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="form-group"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;label for="bcdva"&gt;ETDRS BCDVA (logMAR):&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;input type="number" id="bcdva" name="bcdva" step="0.1" required min="0" max="2"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="form-group"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;label&gt;Retinal Findings (Both Eyes):&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;input type="checkbox" id="geoAtrophy" name="geoAtrophy"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;label for="geoAtrophy"&gt;Geographic Atrophy&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;input type="checkbox" id="disciformScar" name="disciformScar"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;label for="disciformScar"&gt;Disciform Scar&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="form-group"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;label&gt;No Active CNV in Past 6 Months:&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;input type="checkbox" id="noCNV" name="noCNV" required&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;label for="noCNV"&gt;Confirmed&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="form-group"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;label for="cataract"&gt;Visually Significant Cataract (Implanted Eye):&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;select id="cataract" name="cataract" required&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;option value=""&gt;Select&lt;/option&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;option value="yes"&gt;Yes&lt;/option&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;option value="no"&gt;No&lt;/option&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;/select&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="form-group"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;label for="telescopeTraining"&gt;ETDRS BCDVA Improvement with Telescope (Implanted Eye, logMAR):&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;input type="number" id="telescopeTraining" name="telescopeTraining" step="0.1" required min="0"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="form-group"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;label for="peripheralVision"&gt;Adequate Peripheral Vision (Non-Implanted Eye):&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;select id="peripheralVision" name="peripheralVision" required&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;option value=""&gt;Select&lt;/option&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;option value="yes"&gt;Yes&lt;/option&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;option value="no"&gt;No&lt;/option&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;/select&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="form-group"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;label&gt;Exclusion Conditions (Check if present):&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;input type="checkbox" id="cognitiveImpairment" name="cognitiveImpairment"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;label for="cognitiveImpairment"&gt;Cognitive Impairment&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;input type="checkbox" id="stargardt" name="stargardt"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;label for="stargardt"&gt;Stargardt Macular Dystrophy&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;input type="checkbox" id="diabeticRetinopathy" name="diabeticRetinopathy"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;label for="diabeticRetinopathy"&gt;Diabetic Retinopathy&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;!-- Add more as needed --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="form-group"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;label for="iop"&gt;Intraocular Pressure (IOP, mmHg):&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;input type="number" id="iop" name="iop" required min="0"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="form-group"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;label for="acd"&gt;Anterior Chamber Depth (Implanted Eye, mm):&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;input type="number" id="acd" name="acd" step="0.1" required min="0"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="form-group"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;label for="ecd"&gt;Endothelial Cell Density (Implanted Eye, cells/mm²):&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;input type="number" id="ecd" name="ecd" required min="0"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;button type="submit"&gt;Check Eligibility&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/form&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div id="result"&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;script&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>// Simple user database (for demo purposes only)</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const users = {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"crc1": "password123",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"crc2": "securepass456"</p>
+<p class="p1"><span class="Apple-converted-space">        </span>};</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>// Login functionality</p>
+<p class="p1"><span class="Apple-converted-space">        </span>document.getElementById('loginForm').addEventListener('submit', function(e) {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>e.preventDefault();</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const username = document.getElementById('username').value;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const password = document.getElementById('password').value;</p>
+<p class="p2"><span class="Apple-converted-space">            </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>if (users[username] &amp;&amp; users[username] === password) {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>document.getElementById('loginContainer').classList.add('hidden');</p>
+<p class="p1"><span class="Apple-converted-space">                </span>document.getElementById('mainContainer').classList.remove('hidden');</p>
+<p class="p1"><span class="Apple-converted-space">                </span>document.getElementById('loginError').style.display = 'none';</p>
+<p class="p1"><span class="Apple-converted-space">            </span>} else {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>document.getElementById('loginError').style.display = 'block';</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>});</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>// Logout functionality</p>
+<p class="p1"><span class="Apple-converted-space">        </span>document.getElementById('logoutBtn').addEventListener('click', function() {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>document.getElementById('mainContainer').classList.add('hidden');</p>
+<p class="p1"><span class="Apple-converted-space">            </span>document.getElementById('loginContainer').classList.remove('hidden');</p>
+<p class="p1"><span class="Apple-converted-space">            </span>document.getElementById('loginForm').reset();</p>
+<p class="p1"><span class="Apple-converted-space">        </span>});</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>// Eligibility checker</p>
+<p class="p1"><span class="Apple-converted-space">        </span>document.getElementById('patientForm').addEventListener('submit', function(e) {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>e.preventDefault();</p>
+<p class="p2"><span class="Apple-converted-space">            </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>// Get form values</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const age = parseInt(document.getElementById('age').value);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const bcdva = parseFloat(document.getElementById('bcdva').value);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const geoAtrophy = document.getElementById('geoAtrophy').checked;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const disciformScar = document.getElementById('disciformScar').checked;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const noCNV = document.getElementById('noCNV').checked;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const cataract = document.getElementById('cataract').value;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const telescopeTraining = parseFloat(document.getElementById('telescopeTraining').value);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const peripheralVision = document.getElementById('peripheralVision').value;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const cognitiveImpairment = document.getElementById('cognitiveImpairment').checked;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const stargardt = document.getElementById('stargardt').checked;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const diabeticRetinopathy = document.getElementById('diabeticRetinopathy').checked;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const iop = parseInt(document.getElementById('iop').value);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const acd = parseFloat(document.getElementById('acd').value);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const ecd = parseInt(document.getElementById('ecd').value);</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>let isEligible = true;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>let reasons = [];</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>// Inclusion Criteria</p>
+<p class="p1"><span class="Apple-converted-space">            </span>if (age &lt; 65) {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>isEligible = false;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>reasons.push("Age must be at least 65 years");</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>if (bcdva &lt; 0.9 || bcdva &gt; 1.6) {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>isEligible = false;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>reasons.push("ETDRS BCDVA must be between 0.9 and 1.6 logMAR");</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>if (!geoAtrophy &amp;&amp; !disciformScar) {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>isEligible = false;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>reasons.push("Must have geographic atrophy or disciform scar in both eyes");</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>if (!noCNV) {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>isEligible = false;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>reasons.push("Must have no active CNV in past 6 months");</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>if (cataract !== "yes") {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>isEligible = false;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>reasons.push("Implanted eye must have visually significant cataract");</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>if (telescopeTraining &lt; 0.1) {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>isEligible = false;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>reasons.push("Must achieve at least 0.1 logMAR improvement with telescope training");</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>if (peripheralVision !== "yes") {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>isEligible = false;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>reasons.push("Non-implanted eye must have adequate peripheral vision");</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>// Exclusion Criteria</p>
+<p class="p1"><span class="Apple-converted-space">            </span>if (cognitiveImpairment) {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>isEligible = false;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>reasons.push("Cognitive impairment present");</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>if (stargardt) {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>isEligible = false;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>reasons.push("Stargardt macular dystrophy present");</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>if (diabeticRetinopathy) {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>isEligible = false;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>reasons.push("Diabetic retinopathy present");</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>if (iop &gt; 22) {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>isEligible = false;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>reasons.push("IOP must not exceed 22 mmHg");</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>if (acd &lt; 3.0) {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>isEligible = false;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>reasons.push("Anterior chamber depth must be at least 3.0 mm");</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>if (age &gt;= 65 &amp;&amp; age &lt;= 84 &amp;&amp; ecd &lt; 2000) {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>isEligible = false;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>reasons.push("ECD must be at least 2000 cells/mm² for ages 65-84");</p>
+<p class="p1"><span class="Apple-converted-space">            </span>} else if (age &gt;= 85 &amp;&amp; ecd &lt; 1800) {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>isEligible = false;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>reasons.push("ECD must be at least 1800 cells/mm² for ages 85+");</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>// Note: Some criteria (e.g., history of surgery, myopia/hyperopia) require additional fields if needed</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>// Display result</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const resultDiv = document.getElementById('result');</p>
+<p class="p1"><span class="Apple-converted-space">            </span>resultDiv.style.display = 'block';</p>
+<p class="p2"><span class="Apple-converted-space">            </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>if (isEligible) {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>resultDiv.className = 'eligible';</p>
+<p class="p1"><span class="Apple-converted-space">                </span>resultDiv.innerHTML = '&lt;h3&gt;Patient is Eligible&lt;/h3&gt;&lt;p&gt;Patient meets all inclusion criteria and no exclusion criteria.&lt;/p&gt;';</p>
+<p class="p1"><span class="Apple-converted-space">            </span>} else {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>resultDiv.className = 'not-eligible';</p>
+<p class="p1"><span class="Apple-converted-space">                </span>resultDiv.innerHTML = '&lt;h3&gt;Patient is Not Eligible&lt;/h3&gt;&lt;p&gt;Reasons:&lt;/p&gt;&lt;ul&gt;' +<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">                    </span>reasons.map(reason =&gt; `&lt;li&gt;${reason}&lt;/li&gt;`).join('') + '&lt;/ul&gt;';</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>});</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/script&gt;</p>
+<p class="p1">&lt;/body&gt;</p>
+<p class="p1">&lt;/html&gt;</p>
+</body>
+</html>
