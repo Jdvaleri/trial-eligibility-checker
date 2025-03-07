@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Concerto Study Patient Eligibility Check</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> <!-- Chart.js for pie chart -->
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -136,6 +137,11 @@
             display: inline;
             font-weight: normal;
         }
+        canvas {
+            max-width: 300px;
+            margin: 20px auto;
+            display: block;
+        }
     </style>
 </head>
 <body>
@@ -172,17 +178,35 @@
             <a href="#" data-tab="resources">Resources</a>
             <a href="#" data-tab="contact">Contact</a>
             <a href="#" data-tab="settings">Settings</a>
+            <a href="#" data-tab="downloads">Downloads</a>
             <a href="#" data-tab="logout">Logout</a>
         </div>
 
         <div id="home" class="tab-content active">
             <h2>Home</h2>
-            <p>Data & analytics will go here (e.g., eligible vs. ineligible patients).</p>
+            <p>Eligibility Analytics</p>
+            <canvas id="eligibilityChart"></canvas>
         </div>
 
         <div id="profile" class="tab-content">
             <h2>Profile</h2>
-            <p>User profile information will go here.</p>
+            <p>Username: <span id="currentUsername"></span></p>
+            <form id="profileForm">
+                <div class="form-group">
+                    <label for="email">Email for Updates:</label>
+                    <input type="email" id="email" name="email" placeholder="Enter your email">
+                </div>
+                <div class="form-group">
+                    <label for="newPassword">New Password:</label>
+                    <input type="password" id="newPassword" name="newPassword" placeholder="Enter new password">
+                </div>
+                <div class="form-group">
+                    <label for="confirmPassword">Confirm New Password:</label>
+                    <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Confirm new password">
+                </div>
+                <button type="submit">Update Profile</button>
+                <p id="profileMessage" style="display: none; margin-top: 10px;"></p>
+            </form>
         </div>
 
         <div id="check-eligibility" class="tab-content">
@@ -191,7 +215,6 @@
                     <label for="age">Age:</label>
                     <input type="number" id="age" name="age" required min="0">
                 </div>
-
                 <div class="form-group">
                     <label for="bcdvaOD">ETDRS BCDVA OD (Snellen):</label>
                     <select id="bcdvaOD" name="bcdvaOD" required>
@@ -204,7 +227,6 @@
                         <option value="other">Other</option>
                     </select>
                 </div>
-
                 <div class="form-group">
                     <label for="bcdvaOS">ETDRS BCDVA OS (Snellen):</label>
                     <select id="bcdvaOS" name="bcdvaOS" required>
@@ -217,7 +239,6 @@
                         <option value="other">Other</option>
                     </select>
                 </div>
-
                 <div class="form-group">
                     <label>Retinal Findings (Both Eyes):</label>
                     <div class="checkbox-group">
@@ -225,7 +246,6 @@
                         <div><input type="checkbox" id="disciformScar" name="disciformScar"><label for="disciformScar">Disciform Scar</label></div>
                     </div>
                 </div>
-
                 <div class="form-group">
                     <label for="cnvStatus">CNV Status (Past 6 Months):</label>
                     <select id="cnvStatus" name="cnvStatus" required>
@@ -234,7 +254,6 @@
                         <option value="nonActive">Non-Active</option>
                     </select>
                 </div>
-
                 <div class="form-group">
                     <label for="cataract">Visually Significant Cataract (Implanted Eye):</label>
                     <select id="cataract" name="cataract" required>
@@ -243,7 +262,6 @@
                         <option value="no">No</option>
                     </select>
                 </div>
-
                 <div class="form-group">
                     <label for="cataractSurgery">Previous Cataract Surgery:</label>
                     <select id="cataractSurgery" name="cataractSurgery" required>
@@ -253,7 +271,6 @@
                         <option value="bothEyes">Both Eyes</option>
                     </select>
                 </div>
-
                 <div class="form-group">
                     <label for="peripheralVision">Adequate Peripheral Vision (Non-Implanted Eye):</label>
                     <select id="peripheralVision" name="peripheralVision" required>
@@ -262,7 +279,6 @@
                         <option value="no">No</option>
                     </select>
                 </div>
-
                 <div class="form-group">
                     <label>Exclusion Conditions (Check if present):</label>
                     <div class="checkbox-group">
@@ -271,12 +287,10 @@
                         <div><input type="checkbox" id="diabeticRetinopathy" name="diabeticRetinopathy"><label for="diabeticRetinopathy">Diabetic Retinopathy</label></div>
                     </div>
                 </div>
-
                 <div class="form-group">
                     <label for="acd">Anterior Chamber Depth (Implanted Eye, mm):</label>
                     <input type="number" id="acd" name="acd" step="0.1" required min="0">
                 </div>
-
                 <button type="submit">Check Eligibility</button>
             </form>
             <div id="result"></div>
@@ -284,17 +298,39 @@
 
         <div id="resources" class="tab-content">
             <h2>Resources</h2>
-            <p>Guidance on finding inclusion/exclusion criteria will go here.</p>
+            <h3>Phone Script for Patient Calls</h3>
+            <p>[Please provide your script here, and I’ll insert it.]</p>
+            <h3>Finding Inclusion/Exclusion Criteria in EHRs</h3>
+            <ul>
+                <li><strong>Nextech</strong>: Navigate to the "Clinical" tab, select "Ophthalmology Notes," and review the "Retina" section for BCDVA, retinal findings, and ACD measurements.</li>
+                <li><strong>Eyefinity</strong>: Go to "ExamWRITER," open the patient chart, and check the "Vision Assessment" and "Diagnostics" tabs for relevant data.</li>
+                <li><strong>Epic</strong>: Access the patient’s "Chart Review" > "Ophthalmology" module, look under "Encounter Notes" or "Test Results" for eligibility criteria.</li>
+                <li><strong>EyeMD</strong>: Open the "Patient Record," select "Exam History," and review "Visual Acuity" and "Retinal Exam" sections.</li>
+            </ul>
+            <h3>Engaging Patients In-Office</h3>
+            <p>- Build rapport: Greet warmly and explain the study’s purpose briefly.<br>
+               - Highlight benefits: Emphasize improved vision potential.<br>
+               - Use visuals: Show a simple diagram of the procedure if available.<br>
+               - Address concerns: Be ready to discuss risks and answer questions.</p>
+            <p><em>This section will be updated with new tips as provided.</em></p>
         </div>
 
         <div id="contact" class="tab-content">
             <h2>Contact</h2>
-            <p>Contact information will go here.</p>
+            <p><strong>Joseph Valeri</strong><br>
+               Email: <a href="mailto:josephvaleri@astrisresearch.com">josephvaleri@astrisresearch.com</a><br>
+               Phone: 201-705-7139</p>
         </div>
 
         <div id="settings" class="tab-content">
             <h2>Settings</h2>
-            <p>Settings options will go here (e.g., theme toggle).</p>
+            <p>Settings options will go here (e.g., theme toggle in the future).</p>
+        </div>
+
+        <div id="downloads" class="tab-content">
+            <h2>Downloads</h2>
+            <p>Resources such as study forms or PDFs will be available here.<br>
+               (E.g., future links to consent forms, protocol summaries, etc.)</p>
         </div>
 
         <div id="logout" class="tab-content">
@@ -310,17 +346,25 @@
             "crc2": "securepass456"
         };
 
+        // Eligibility counters
+        let eligibleCount = 0;
+        let ineligibleCount = 0;
+
         // Login functionality
+        let currentUser = '';
         document.getElementById('loginForm').addEventListener('submit', function(e) {
             e.preventDefault();
             const username = document.getElementById('username').value;
             const password = document.getElementById('password').value;
             
             if (users[username] && users[username] === password) {
+                currentUser = username;
                 document.getElementById('loginContainer').classList.add('hidden');
                 document.getElementById('mainContainer').classList.remove('hidden');
                 document.getElementById('loginError').style.display = 'none';
-                showTab('home'); // Default to Home tab after login
+                document.getElementById('currentUsername').textContent = currentUser;
+                showTab('home');
+                updateChart();
             } else {
                 document.getElementById('loginError').style.display = 'block';
             }
@@ -353,6 +397,61 @@
             document.querySelector(`.nav-bar a[data-tab="${tabId}"]`).classList.add('active');
         }
 
+        // Pie chart for Home tab
+        const ctx = document.getElementById('eligibilityChart').getContext('2d');
+        const eligibilityChart = new Chart(ctx, {
+            type: 'pie',
+            data: {
+                labels: ['Eligible', 'Ineligible'],
+                datasets: [{
+                    data: [eligibleCount, ineligibleCount],
+                    backgroundColor: ['#36a2eb', '#ff6384'],
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                    title: {
+                        display: true,
+                        text: 'Patient Eligibility Overview'
+                    }
+                }
+            }
+        });
+
+        function updateChart() {
+            eligibilityChart.data.datasets[0].data = [eligibleCount, ineligibleCount];
+            eligibilityChart.update();
+        }
+
+        // Profile update
+        document.getElementById('profileForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const newPassword = document.getElementById('newPassword').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            const email = document.getElementById('email').value;
+            const message = document.getElementById('profileMessage');
+
+            if (newPassword && newPassword === confirmPassword) {
+                users[currentUser] = newPassword;
+                message.style.display = 'block';
+                message.style.color = '#006600';
+                message.textContent = 'Password updated successfully!';
+            } else if (newPassword && newPassword !== confirmPassword) {
+                message.style.display = 'block';
+                message.style.color = '#990000';
+                message.textContent = 'Passwords do not match.';
+            } else if (email) {
+                message.style.display = 'block';
+                message.style.color = '#006600';
+                message.textContent = 'Email updated successfully!';
+            }
+            setTimeout(() => message.style.display = 'none', 3000);
+        });
+
         // Eligibility checker
         document.getElementById('patientForm').addEventListener('submit', function(e) {
             e.preventDefault();
@@ -374,80 +473,35 @@
             let isEligible = true;
             let reasons = [];
 
-            if (age < 65) {
-                isEligible = false;
-                reasons.push("Age must be at least 65 years");
-            }
-
+            if (age < 65) { isEligible = false; reasons.push("Age must be at least 65 years"); }
             const validBCDVA = ["20/160", "20/200", "20/400", "20/500", "20/800"];
-            if (!validBCDVA.includes(bcdvaOD)) {
-                isEligible = false;
-                reasons.push("BCDVA OD must be between 20/160 and 20/800");
-            }
-            if (!validBCDVA.includes(bcdvaOS)) {
-                isEligible = false;
-                reasons.push("BCDVA OS must be between 20/160 and 20/800");
-            }
-
-            if (!geoAtrophy && !disciformScar) {
-                isEligible = false;
-                reasons.push("Must have geographic atrophy or disciform scar in both eyes");
-            }
-
-            if (cnvStatus === "active") {
-                isEligible = false;
-                reasons.push("Active CNV in past 6 months excludes eligibility");
-            } else if (cnvStatus !== "nonActive") {
-                isEligible = false;
-                reasons.push("CNV status must be confirmed as non-active");
-            }
-
-            if (cataract !== "yes") {
-                isEligible = false;
-                reasons.push("Implanted eye must have visually significant cataract");
-            }
-
-            if (cataractSurgery === "bothEyes") {
-                isEligible = false;
-                reasons.push("Previous cataract surgery in both eyes excludes eligibility");
-            }
-
-            if (peripheralVision !== "yes") {
-                isEligible = false;
-                reasons.push("Non-implanted eye must have adequate peripheral vision");
-            }
-
-            if (cognitiveImpairment) {
-                isEligible = false;
-                reasons.push("Cognitive impairment present");
-            }
-
-            if (stargardt) {
-                isEligible = false;
-                reasons.push("Stargardt macular dystrophy present");
-            }
-
-            if (diabeticRetinopathy) {
-                isEligible = false;
-                reasons.push("Diabetic retinopathy present");
-            }
-
-            if (acd < 3.0) {
-                isEligible = false;
-                reasons.push("Anterior chamber depth must be at least 3.0 mm");
-            }
+            if (!validBCDVA.includes(bcdvaOD)) { isEligible = false; reasons.push("BCDVA OD must be between 20/160 and 20/800"); }
+            if (!validBCDVA.includes(bcdvaOS)) { isEligible = false; reasons.push("BCDVA OS must be between 20/160 and 20/800"); }
+            if (!geoAtrophy && !disciformScar) { isEligible = false; reasons.push("Must have geographic atrophy or disciform scar in both eyes"); }
+            if (cnvStatus === "active") { isEligible = false; reasons.push("Active CNV in past 6 months excludes eligibility"); }
+            else if (cnvStatus !== "nonActive") { isEligible = false; reasons.push("CNV status must be confirmed as non-active"); }
+            if (cataract !== "yes") { isEligible = false; reasons.push("Implanted eye must have visually significant cataract"); }
+            if (cataractSurgery === "bothEyes") { isEligible = false; reasons.push("Previous cataract surgery in both eyes excludes eligibility"); }
+            if (peripheralVision !== "yes") { isEligible = false; reasons.push("Non-implanted eye must have adequate peripheral vision"); }
+            if (cognitiveImpairment) { isEligible = false; reasons.push("Cognitive impairment present"); }
+            if (stargardt) { isEligible = false; reasons.push("Stargardt macular dystrophy present"); }
+            if (diabeticRetinopathy) { isEligible = false; reasons.push("Diabetic retinopathy present"); }
+            if (acd < 3.0) { isEligible = false; reasons.push("Anterior chamber depth must be at least 3.0 mm"); }
 
             const resultDiv = document.getElementById('result');
             resultDiv.style.display = 'block';
             
             if (isEligible) {
+                eligibleCount++;
                 resultDiv.className = 'eligible';
                 resultDiv.innerHTML = '<h3>Patient is Eligible</h3><p>Patient meets all inclusion criteria and no exclusion criteria.</p>';
             } else {
+                ineligibleCount++;
                 resultDiv.className = 'not-eligible';
                 resultDiv.innerHTML = '<h3>Patient is Not Eligible</h3><p>Reasons:</p><ul>' + 
                     reasons.map(reason => `<li>${reason}</li>`).join('') + '</ul>';
             }
+            updateChart();
         });
     </script>
 </body>
