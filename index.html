@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Concerto Study Patient Eligibility Check</title>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> <!-- Chart.js for pie chart -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -72,6 +72,31 @@
             display: none;
         }
         .tab-content.active {
+            display: block;
+        }
+        .sub-nav {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        .sub-nav button {
+            background-color: #e9ecef;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+            color: #333;
+        }
+        .sub-nav button:hover, .sub-nav button.active {
+            background-color: #9b59b6;
+            color: white;
+        }
+        .sub-tab-content {
+            display: none;
+        }
+        .sub-tab-content.active {
             display: block;
         }
         .form-group {
@@ -298,21 +323,60 @@
 
         <div id="resources" class="tab-content">
             <h2>Resources</h2>
-            <h3>Phone Script for Patient Calls</h3>
-            <p>[Please provide your script here, and I’ll insert it.]</p>
-            <h3>Finding Inclusion/Exclusion Criteria in EHRs</h3>
-            <ul>
-                <li><strong>Nextech</strong>: Navigate to the "Clinical" tab, select "Ophthalmology Notes," and review the "Retina" section for BCDVA, retinal findings, and ACD measurements.</li>
-                <li><strong>Eyefinity</strong>: Go to "ExamWRITER," open the patient chart, and check the "Vision Assessment" and "Diagnostics" tabs for relevant data.</li>
-                <li><strong>Epic</strong>: Access the patient’s "Chart Review" > "Ophthalmology" module, look under "Encounter Notes" or "Test Results" for eligibility criteria.</li>
-                <li><strong>EyeMD</strong>: Open the "Patient Record," select "Exam History," and review "Visual Acuity" and "Retinal Exam" sections.</li>
-            </ul>
-            <h3>Engaging Patients In-Office</h3>
-            <p>- Build rapport: Greet warmly and explain the study’s purpose briefly.<br>
-               - Highlight benefits: Emphasize improved vision potential.<br>
-               - Use visuals: Show a simple diagram of the procedure if available.<br>
-               - Address concerns: Be ready to discuss risks and answer questions.</p>
-            <p><em>This section will be updated with new tips as provided.</em></p>
+            <div class="sub-nav">
+                <button data-sub-tab="scripts" class="active">Patient Interaction Scripts</button>
+                <button data-sub-tab="ehr">EHR Navigation Guides</button>
+                <button data-sub-tab="communication">Effective Communication Strategies</button>
+                <button data-sub-tab="protocol">Study Protocol Reference</button>
+                <button data-sub-tab="training">Training Materials</button>
+            </div>
+
+            <div id="scripts" class="sub-tab-content active">
+                <h3>Patient Interaction Scripts</h3>
+                <p>[Please provide your phone script here, and I’ll insert it.]</p>
+            </div>
+
+            <div id="ehr" class="sub-tab-content">
+                <h3>EHR Navigation Guides</h3>
+                <ul>
+                    <li><strong>Nextech</strong>: Navigate to "Clinical" tab > "Ophthalmology Notes" > "Retina" section for BCDVA, retinal findings, and ACD.</li>
+                    <li><strong>Eyefinity</strong>: Go to "ExamWRITER" > patient chart > "Vision Assessment" and "Diagnostics" tabs.</li>
+                    <li><strong>Epic</strong>: Access "Chart Review" > "Ophthalmology" module > "Encounter Notes" or "Test Results."</li>
+                    <li><strong>EyeMD</strong>: Open "Patient Record" > "Exam History" > "Visual Acuity" and "Retinal Exam" sections.</li>
+                </ul>
+            </div>
+
+            <div id="communication" class="sub-tab-content">
+                <h3>Effective Communication Strategies</h3>
+                <p>- Build rapport: Greet warmly and explain the study briefly.<br>
+                   - Highlight benefits: Emphasize improved vision potential.<br>
+                   - Use visuals: Show a diagram of the procedure if available.<br>
+                   - Address concerns: Discuss risks and answer questions patiently.</p>
+                <p><em>Updated with new strategies as provided.</em></p>
+            </div>
+
+            <div id="protocol" class="sub-tab-content">
+                <h3>Study Protocol Reference</h3>
+                <p><strong>Inclusion Criteria:</strong><br>
+                   - Age ≥ 65<br>
+                   - BCDVA 20/160 to 20/800 (both eyes)<br>
+                   - Geographic atrophy or disciform scar (both eyes)<br>
+                   - Non-active CNV (past 6 months)<br>
+                   - Visually significant cataract (implanted eye)<br>
+                   - Adequate peripheral vision (non-implanted eye)<br>
+                   - ACD ≥ 3.0 mm (implanted eye)</p>
+                <p><strong>Exclusion Criteria:</strong><br>
+                   - Previous cataract surgery in both eyes<br>
+                   - Cognitive impairment<br>
+                   - Stargardt macular dystrophy<br>
+                   - Diabetic retinopathy</p>
+            </div>
+
+            <div id="training" class="sub-tab-content">
+                <h3>Training Materials</h3>
+                <p>Placeholder for training resources (e.g., videos, slides) to onboard staff.<br>
+                   <em>Content to be added as available.</em></p>
+            </div>
         </div>
 
         <div id="contact" class="tab-content">
@@ -329,8 +393,7 @@
 
         <div id="downloads" class="tab-content">
             <h2>Downloads</h2>
-            <p>Resources such as study forms or PDFs will be available here.<br>
-               (E.g., future links to consent forms, protocol summaries, etc.)</p>
+            <p>Resources such as study forms or PDFs will be available here.</p>
         </div>
 
         <div id="logout" class="tab-content">
@@ -370,7 +433,7 @@
             }
         });
 
-        // Tab navigation
+        // Main tab navigation
         const tabs = document.querySelectorAll('.nav-bar a');
         tabs.forEach(tab => {
             tab.addEventListener('click', function(e) {
@@ -382,6 +445,9 @@
                     document.getElementById('loginForm').reset();
                 } else {
                     showTab(tabId);
+                    if (tabId === 'resources') {
+                        showSubTab('scripts'); // Default to Scripts sub-tab
+                    }
                 }
             });
         });
@@ -395,6 +461,26 @@
             });
             document.getElementById(tabId).classList.add('active');
             document.querySelector(`.nav-bar a[data-tab="${tabId}"]`).classList.add('active');
+        }
+
+        // Sub-tab navigation for Resources
+        const subTabs = document.querySelectorAll('.sub-nav button');
+        subTabs.forEach(subTab => {
+            subTab.addEventListener('click', function() {
+                const subTabId = this.getAttribute('data-sub-tab');
+                showSubTab(subTabId);
+            });
+        });
+
+        function showSubTab(subTabId) {
+            document.querySelectorAll('.sub-tab-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            document.querySelectorAll('.sub-nav button').forEach(button => {
+                button.classList.remove('active');
+            });
+            document.getElementById(subTabId).classList.add('active');
+            document.querySelector(`.sub-nav button[data-sub-tab="${subTabId}"]`).classList.add('active');
         }
 
         // Pie chart for Home tab
@@ -411,13 +497,8 @@
             options: {
                 responsive: true,
                 plugins: {
-                    legend: {
-                        position: 'top',
-                    },
-                    title: {
-                        display: true,
-                        text: 'Patient Eligibility Overview'
-                    }
+                    legend: { position: 'top' },
+                    title: { display: true, text: 'Patient Eligibility Overview' }
                 }
             }
         });
