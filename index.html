@@ -23,8 +23,8 @@
             padding: 30px;
         }
         .header {
-            background-color: #ffffff; /* White banner */
-            color: #333; /* Dark text for contrast */
+            background-color: #ffffff;
+            color: #333;
             padding: 20px;
             text-align: center;
             border-radius: 10px 10px 0 0;
@@ -46,6 +46,32 @@
             margin: 5px 0 0;
             font-size: 14px;
             opacity: 0.9;
+        }
+        .nav-bar {
+            background-color: #f8f9fa;
+            padding: 10px 0;
+            margin: -30px -30px 30px -30px;
+            border-bottom: 1px solid #ddd;
+            display: flex;
+            justify-content: space-around;
+        }
+        .nav-bar a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 600;
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+        .nav-bar a:hover, .nav-bar a.active {
+            background-color: #9b59b6;
+            color: white;
+            border-radius: 5px;
+        }
+        .tab-content {
+            display: none;
+        }
+        .tab-content.active {
+            display: block;
         }
         .form-group {
             margin-bottom: 20px;
@@ -69,7 +95,7 @@
             margin-right: 10px;
         }
         button {
-            background: #9b59b6; /* Bright purple */
+            background: #9b59b6;
             color: white;
             padding: 12px 25px;
             border: none;
@@ -79,14 +105,7 @@
             transition: background 0.3s;
         }
         button:hover {
-            background: #8e44ad; /* Darker purple on hover */
-        }
-        #logoutBtn {
-            background: #dc3545; /* Keep logout red */
-            float: right;
-        }
-        #logoutBtn:hover {
-            background: #b02a37;
+            background: #8e44ad;
         }
         #result {
             margin-top: 25px;
@@ -146,107 +165,146 @@
             <h1>Concerto Study Patient Eligibility Check</h1>
             <p>By Samsara Vision</p>
         </div>
-        <button id="logoutBtn">Logout</button>
-        
-        <form id="patientForm">
-            <div class="form-group">
-                <label for="age">Age:</label>
-                <input type="number" id="age" name="age" required min="0">
-            </div>
+        <div class="nav-bar">
+            <a href="#" data-tab="home" class="active">Home</a>
+            <a href="#" data-tab="profile">Profile</a>
+            <a href="#" data-tab="check-eligibility">Check Eligibility</a>
+            <a href="#" data-tab="resources">Resources</a>
+            <a href="#" data-tab="contact">Contact</a>
+            <a href="#" data-tab="settings">Settings</a>
+            <a href="#" data-tab="logout">Logout</a>
+        </div>
 
-            <div class="form-group">
-                <label for="bcdvaOD">ETDRS BCDVA OD (Snellen):</label>
-                <select id="bcdvaOD" name="bcdvaOD" required>
-                    <option value="">Select</option>
-                    <option value="20/160">20/160</option>
-                    <option value="20/200">20/200</option>
-                    <option value="20/400">20/400</option>
-                    <option value="20/500">20/500</option>
-                    <option value="20/800">20/800</option>
-                    <option value="other">Other</option>
-                </select>
-            </div>
+        <div id="home" class="tab-content active">
+            <h2>Home</h2>
+            <p>Data & analytics will go here (e.g., eligible vs. ineligible patients).</p>
+        </div>
 
-            <div class="form-group">
-                <label for="bcdvaOS">ETDRS BCDVA OS (Snellen):</label>
-                <select id="bcdvaOS" name="bcdvaOS" required>
-                    <option value="">Select</option>
-                    <option value="20/160">20/160</option>
-                    <option value="20/200">20/200</option>
-                    <option value="20/400">20/400</option>
-                    <option value="20/500">20/500</option>
-                    <option value="20/800">20/800</option>
-                    <option value="other">Other</option>
-                </select>
-            </div>
+        <div id="profile" class="tab-content">
+            <h2>Profile</h2>
+            <p>User profile information will go here.</p>
+        </div>
 
-            <div class="form-group">
-                <label>Retinal Findings (Both Eyes):</label>
-                <div class="checkbox-group">
-                    <div><input type="checkbox" id="geoAtrophy" name="geoAtrophy"><label for="geoAtrophy">Geographic Atrophy</label></div>
-                    <div><input type="checkbox" id="disciformScar" name="disciformScar"><label for="disciformScar">Disciform Scar</label></div>
+        <div id="check-eligibility" class="tab-content">
+            <form id="patientForm">
+                <div class="form-group">
+                    <label for="age">Age:</label>
+                    <input type="number" id="age" name="age" required min="0">
                 </div>
-            </div>
 
-            <div class="form-group">
-                <label for="cnvStatus">CNV Status (Past 6 Months):</label>
-                <select id="cnvStatus" name="cnvStatus" required>
-                    <option value="">Select</option>
-                    <option value="active">Active</option>
-                    <option value="nonActive">Non-Active</option>
-                </select>
-            </div>
-
-            <div class="form-group">
-                <label for="cataract">Visually Significant Cataract (Implanted Eye):</label>
-                <select id="cataract" name="cataract" required>
-                    <option value="">Select</option>
-                    <option value="yes">Yes</option>
-                    <option value="no">No</option>
-                </select>
-            </div>
-
-            <div class="form-group">
-                <label for="cataractSurgery">Previous Cataract Surgery:</label>
-                <select id="cataractSurgery" name="cataractSurgery" required>
-                    <option value="">Select</option>
-                    <option value="none">None</option>
-                    <option value="oneEye">One Eye</option>
-                    <option value="bothEyes">Both Eyes</option>
-                </select>
-            </div>
-
-            <div class="form-group">
-                <label for="peripheralVision">Adequate Peripheral Vision (Non-Implanted Eye):</label>
-                <select id="peripheralVision" name="peripheralVision" required>
-                    <option value="">Select</option>
-                    <option value="yes">Yes</option>
-                    <option value="no">No</option>
-                </select>
-            </div>
-
-            <div class="form-group">
-                <label>Exclusion Conditions (Check if present):</label>
-                <div class="checkbox-group">
-                    <div><input type="checkbox" id="cognitiveImpairment" name="cognitiveImpairment"><label for="cognitiveImpairment">Cognitive Impairment</label></div>
-                    <div><input type="checkbox" id="stargardt" name="stargardt"><label for="stargardt">Stargardt Macular Dystrophy</label></div>
-                    <div><input type="checkbox" id="diabeticRetinopathy" name="diabeticRetinopathy"><label for="diabeticRetinopathy">Diabetic Retinopathy</label></div>
+                <div class="form-group">
+                    <label for="bcdvaOD">ETDRS BCDVA OD (Snellen):</label>
+                    <select id="bcdvaOD" name="bcdvaOD" required>
+                        <option value="">Select</option>
+                        <option value="20/160">20/160</option>
+                        <option value="20/200">20/200</option>
+                        <option value="20/400">20/400</option>
+                        <option value="20/500">20/500</option>
+                        <option value="20/800">20/800</option>
+                        <option value="other">Other</option>
+                    </select>
                 </div>
-            </div>
 
-            <div class="form-group">
-                <label for="acd">Anterior Chamber Depth (Implanted Eye, mm):</label>
-                <input type="number" id="acd" name="acd" step="0.1" required min="0">
-            </div>
+                <div class="form-group">
+                    <label for="bcdvaOS">ETDRS BCDVA OS (Snellen):</label>
+                    <select id="bcdvaOS" name="bcdvaOS" required>
+                        <option value="">Select</option>
+                        <option value="20/160">20/160</option>
+                        <option value="20/200">20/200</option>
+                        <option value="20/400">20/400</option>
+                        <option value="20/500">20/500</option>
+                        <option value="20/800">20/800</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
 
-            <button type="submit">Check Eligibility</button>
-        </form>
+                <div class="form-group">
+                    <label>Retinal Findings (Both Eyes):</label>
+                    <div class="checkbox-group">
+                        <div><input type="checkbox" id="geoAtrophy" name="geoAtrophy"><label for="geoAtrophy">Geographic Atrophy</label></div>
+                        <div><input type="checkbox" id="disciformScar" name="disciformScar"><label for="disciformScar">Disciform Scar</label></div>
+                    </div>
+                </div>
 
-        <div id="result"></div>
+                <div class="form-group">
+                    <label for="cnvStatus">CNV Status (Past 6 Months):</label>
+                    <select id="cnvStatus" name="cnvStatus" required>
+                        <option value="">Select</option>
+                        <option value="active">Active</option>
+                        <option value="nonActive">Non-Active</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="cataract">Visually Significant Cataract (Implanted Eye):</label>
+                    <select id="cataract" name="cataract" required>
+                        <option value="">Select</option>
+                        <option value="yes">Yes</option>
+                        <option value="no">No</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="cataractSurgery">Previous Cataract Surgery:</label>
+                    <select id="cataractSurgery" name="cataractSurgery" required>
+                        <option value="">Select</option>
+                        <option value="none">None</option>
+                        <option value="oneEye">One Eye</option>
+                        <option value="bothEyes">Both Eyes</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="peripheralVision">Adequate Peripheral Vision (Non-Implanted Eye):</label>
+                    <select id="peripheralVision" name="peripheralVision" required>
+                        <option value="">Select</option>
+                        <option value="yes">Yes</option>
+                        <option value="no">No</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Exclusion Conditions (Check if present):</label>
+                    <div class="checkbox-group">
+                        <div><input type="checkbox" id="cognitiveImpairment" name="cognitiveImpairment"><label for="cognitiveImpairment">Cognitive Impairment</label></div>
+                        <div><input type="checkbox" id="stargardt" name="stargardt"><label for="stargardt">Stargardt Macular Dystrophy</label></div>
+                        <div><input type="checkbox" id="diabeticRetinopathy" name="diabeticRetinopathy"><label for="diabeticRetinopathy">Diabetic Retinopathy</label></div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="acd">Anterior Chamber Depth (Implanted Eye, mm):</label>
+                    <input type="number" id="acd" name="acd" step="0.1" required min="0">
+                </div>
+
+                <button type="submit">Check Eligibility</button>
+            </form>
+            <div id="result"></div>
+        </div>
+
+        <div id="resources" class="tab-content">
+            <h2>Resources</h2>
+            <p>Guidance on finding inclusion/exclusion criteria will go here.</p>
+        </div>
+
+        <div id="contact" class="tab-content">
+            <h2>Contact</h2>
+            <p>Contact information will go here.</p>
+        </div>
+
+        <div id="settings" class="tab-content">
+            <h2>Settings</h2>
+            <p>Settings options will go here (e.g., theme toggle).</p>
+        </div>
+
+        <div id="logout" class="tab-content">
+            <h2>Logout</h2>
+            <p>You have been logged out. Redirecting to login...</p>
+        </div>
     </div>
 
     <script>
-        // Simple user database (for demo purposes only)
+        // Simple user database
         const users = {
             "crc1": "password123",
             "crc2": "securepass456"
@@ -262,23 +320,43 @@
                 document.getElementById('loginContainer').classList.add('hidden');
                 document.getElementById('mainContainer').classList.remove('hidden');
                 document.getElementById('loginError').style.display = 'none';
+                showTab('home'); // Default to Home tab after login
             } else {
                 document.getElementById('loginError').style.display = 'block';
             }
         });
 
-        // Logout functionality
-        document.getElementById('logoutBtn').addEventListener('click', function() {
-            document.getElementById('mainContainer').classList.add('hidden');
-            document.getElementById('loginContainer').classList.remove('hidden');
-            document.getElementById('loginForm').reset();
+        // Tab navigation
+        const tabs = document.querySelectorAll('.nav-bar a');
+        tabs.forEach(tab => {
+            tab.addEventListener('click', function(e) {
+                e.preventDefault();
+                const tabId = this.getAttribute('data-tab');
+                if (tabId === 'logout') {
+                    document.getElementById('mainContainer').classList.add('hidden');
+                    document.getElementById('loginContainer').classList.remove('hidden');
+                    document.getElementById('loginForm').reset();
+                } else {
+                    showTab(tabId);
+                }
+            });
         });
+
+        function showTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            document.querySelectorAll('.nav-bar a').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            document.getElementById(tabId).classList.add('active');
+            document.querySelector(`.nav-bar a[data-tab="${tabId}"]`).classList.add('active');
+        }
 
         // Eligibility checker
         document.getElementById('patientForm').addEventListener('submit', function(e) {
             e.preventDefault();
             
-            // Get form values
             const age = parseInt(document.getElementById('age').value);
             const bcdvaOD = document.getElementById('bcdvaOD').value;
             const bcdvaOS = document.getElementById('bcdvaOS').value;
@@ -296,7 +374,6 @@
             let isEligible = true;
             let reasons = [];
 
-            // Inclusion Criteria
             if (age < 65) {
                 isEligible = false;
                 reasons.push("Age must be at least 65 years");
@@ -340,7 +417,6 @@
                 reasons.push("Non-implanted eye must have adequate peripheral vision");
             }
 
-            // Exclusion Criteria
             if (cognitiveImpairment) {
                 isEligible = false;
                 reasons.push("Cognitive impairment present");
@@ -361,7 +437,6 @@
                 reasons.push("Anterior chamber depth must be at least 3.0 mm");
             }
 
-            // Display result
             const resultDiv = document.getElementById('result');
             resultDiv.style.display = 'block';
             
